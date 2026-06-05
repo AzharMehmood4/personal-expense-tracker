@@ -3,93 +3,143 @@ const tableBody = document.getElementById("expenseTableBody");
 const totalElement = document.getElementById("total");
 const filterCategory = document.getElementById("filterCategory");
 
-let expenses = [];
-let total = 0;
+let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+let editIndex = null;
 
 form.addEventListener("submit", function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const title = document.getElementById("title").value.trim();
-    const amount = document.getElementById("amount").value;
-    const category = document.getElementById("category").value;
+  const title = document.getElementById("title").value.trim();
+  const amount = document.getElementById("amount").value;
+  const category = document.getElementById("category").value;
 
-    document.getElementById("titleError").textContent = "";
-    document.getElementById("amountError").textContent = "";
-    document.getElementById("categoryError").textContent = "";
+  document.getElementById("titleError").textContent = "";
+  document.getElementById("amountError").textContent = "";
+  document.getElementById("categoryError").textContent = "";
 
-    let valid = true;
+  let valid = true;
 
-    if (title === "") {
-        document.getElementById("titleError").textContent =
-            "Title is required";
-        valid = false;
-    }
+  if (!title) {
+    document.getElementById("titleError").textContent = "Title required";
+    valid = false;
+  }
 
-    if (amount === "" || amount <= 0) {
-        document.getElementById("amountError").textContent =
-            "Enter a positive amount";
-        valid = false;
-    }
+  if (!amount || amount <= 0) {
+    document.getElementById("amountError").textContent = "Invalid amount";
+    valid = false;
+  }
 
-    if (category === "") {
-        document.getElementById("categoryError").textContent =
-            "Please select a category";
-        valid = false;
-    }
+  if (!category) {
+    document.getElementById("categoryError").textContent = "Select category";
+    valid = false;
+  }
 
-    if (!valid) return;
+  if (!valid) return;
 
-    const expense = {
-        title,
-        amount: Number(amount),
-        category
-    };
+  const expense = {
+    title,
+    amount: Number(amount),
+    category
+  };
 
+  if (editIndex === null) {
     expenses.push(expense);
+  } else {
+    expenses[editIndex] = expense;
+    editIndex = null;
+    form.querySelector("button").textContent = "Add Expense";
+  }
 
-    renderExpenses();
-
-    form.reset();
+  save();
+  form.reset();
+  render();
 });
 
-function renderExpenses() {
-    tableBody.innerHTML = "";
-
-    const selectedCategory = filterCategory.value;
-
-    let filteredExpenses = expenses;
-
-    if (selectedCategory !== "All") {
-        filteredExpenses = expenses.filter(
-            expense => expense.category === selectedCategory
-        );
-    }
-
-    filteredExpenses.forEach((expense, index) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td>${expense.title}</td>
-            <td>PKR ${expense.amount.toLocaleString()}</td>
-            <td>${expense.category}</td>
-            <td>
-                <button class="delete-btn" onclick="deleteExpense(${expenses.indexOf(expense)})">
-                    Delete
-                </button>
-            </td>
-        `;
-
-        tableBody.appendChild(row);
-    });
-
-    total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-
-    totalElement.textContent = `PKR ${total.toLocaleString()}`;
+function save() {
+  localStorage.setItem("expenses", JSON.stringify(expenses));
 }
 
-function deleteExpense(index) {
-    expenses.splice(index, 1);
-    renderExpenses();
+function render() {
+  tableBody.innerHTML = "";
+
+  let selected = filterCategory.value;
+
+  let list = selected === "All"
+    ? expenses
+    : expenses.filter(e => e.category === selected);
+
+  list.forEach((e) => {
+    const index = expenses.indexOf(e);
+
+    tableBody.innerHTML += `
+      <tr>
+        <td>${e.title}</td>
+        <td>PKR ${e.amount.toLocaleString()}</td>
+        <td>${e.category}</td>
+        <td>
+         <div class="action-buttons">
+           <button class="edit-btn" onclick="editExpense(${index})">
+            Edit
+           </button>
+
+           <button class="delete-btn" onclick="deleteExpense(${index})">
+           Delete
+           </button>
+         </div>
+        </td>
+      </tr>
+    `;
+  });
+
+  let total = expenses.reduce((sum, e) => sum + e.amount, 0);
+  totalElement.innerText = `PKR ${total.toLocaleString()}`;
+
+  categorySummary();
 }
 
-filterCategory.addEventListener("change", renderExpenses);
+function deleteExpense(i) {
+  expenses.splice(i, 1);
+  save();
+  render();
+}
+
+function editExpense(i) {
+  let e = expenses[i];
+
+  document.getElementById("title").value = e.title;
+  document.getElementById("amount").value = e.amount;
+  document.getElementById("category").value = e.category;
+
+  editIndex = i;
+  form.querySelector("button").textContent = "Update Expense";
+}
+
+filterCategory.addEventListener("change", render);
+
+document.getElementById("sortAsc").onclick = () => {
+  expenses.sort((a,b)=>a.amount-b.amount);
+  save(); render();
+};
+
+document.getElementById("sortDesc").onclick = () => {
+  expenses.sort((a,b)=>b.amount-a.amount);
+  save(); render();
+};
+
+function categorySummary() {
+  let totals = {};
+
+  expenses.forEach(e => {
+    totals[e.category] = (totals[e.category] || 0) + e.amount;
+  });
+
+  let html = "<h3>Category Summary</h3>";
+
+  for (let c in totals) {
+    html += `<p>${c}: PKR ${totals[c].toLocaleString()}</p>`;
+  }
+
+  document.getElementById("categoryTotals").innerHTML = html;
+}
+
+render();

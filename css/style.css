@@ -1,74 +1,232 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    padding: 30px;
+  background: #0f172a;
+  color: white;
 }
 
-.container {
-    max-width: 800px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+.app {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
+header {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+header h1 {
+  font-size: 28px;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+header p {
+  color: #94a3b8;
+}
+
+.card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  border: 1px solid #1f2937;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+label {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0b1220;
+  color: white;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: #38bdf8;
 }
 
 button {
-    padding: 10px 20px;
-    cursor: pointer;
+  cursor: pointer;
+  border: none;
 }
 
-.error {
-    color: red;
-    display: block;
-    margin-top: 5px;
+#submitBtn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #38bdf8;
+  color: black;
+  font-weight: 600;
+  border-radius: 10px;
 }
 
-.filter-section {
-    margin: 20px 0;
+#submitBtn:hover {
+  background: #0ea5e9;
+}
+
+ /* ERRORS  */
+small {
+  color: #f87171;
+  font-size: 12px;
+}
+
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.controls select,
+.controls button {
+  padding: 10px;
+  border-radius: 8px;
+  background: #111827;
+  color: white;
+  border: 1px solid #1f2937;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 th {
-    background: #eee;
+  text-align: left;
+  padding: 12px;
+  color: #94a3b8;
+  border-bottom: 1px solid #1f2937;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #1f2937;
+}
+
+@media (max-width: 600px) {
+  th {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  td {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+  align-items: left;
+}
+
+.edit-btn {
+  background: #22c55e;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: black;
+  border: none;
+  cursor: pointer;
 }
 
 .delete-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 6px 10px;
+  background: #ef4444;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+
+@media (max-width: 600px) {
+  .action-buttons {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 100%;
+    font-size: 10px;
+    padding: 6px;
+  }
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.total-card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #1f2937;
+  width: 30%;
+}
+
+#categoryTotals {
+  flex: 1;
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #1f2937;
+}
+
+#categoryTotals p {
+  margin-top: 8px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    flex-direction: column;
+  }
+
+  .total-card {
+    width: 100%;
+  }
+}
+#sortAsc, #sortDesc {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #111827;
+  color: white;
+  border: 1px solid #1f2937;
+  cursor: pointer;
+}
+
+#sortAsc:hover, #sortDesc:hover {
+  background: #1f2937;
 }
