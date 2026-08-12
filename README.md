@@ -73,7 +73,9 @@ It allows users to manage their daily expenses efficiently by adding, viewing, f
 
 ## 📸 UI Preview
 
-<img width="1101" height="579" alt="Screenshot from 2026-06-05 06-43-15" src="https://github.com/user-attachments/assets/66e5f8a7-e249-4c8a-b81c-7e879d1a6f48" />
+<img width="1347" height="650" alt="Screenshot from 2026-08-12 09-07-45" src="https://github.com/user-attachments/assets/2572337b-3f92-4d6c-804b-61f8254b5326" />
+<img width="1347" height="650" alt="Screenshot from 2026-08-12 09-08-28" src="https://github.com/user-attachments/assets/14f31267-4ef9-46cc-a68f-99dde151237a" />
+
 
 ---
 
