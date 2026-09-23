@@ -90,4 +90,4 @@ It allows users to manage their daily expenses efficiently by adding, viewing, f
 
 ## 👨‍💻 Author
 
-Azhard
+Azhar Mehmood
